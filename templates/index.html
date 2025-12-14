@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Crop Recommendation System</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Google Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+
+    <style>
+       body {
+    margin: 0;
+    padding: 0;
+    font-family: 'Poppins', sans-serif;
+    background: linear-gradient(to right, #a8e063, #56ab2f);
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.container {
+    width: 85%;
+    max-width: 1200px;
+    background: #fff;
+    padding: 20px 40px;   /* keep width big, height controlled */
+    border-radius: 16px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.25);
+}
+
+/* HEADER */
+h1 {
+    text-align: center;
+    font-size: 30px;
+    margin-bottom: 18px;
+    color: #2e7d32;
+}
+
+/* FORM GRID */
+form {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 18px 24px;
+}
+
+.field {
+    display: flex;
+    flex-direction: column;
+}
+
+label {
+    font-size: 14px;
+    font-weight: 600;
+    margin-bottom: 4px;
+}
+
+input {
+    padding: 10px 12px;
+    font-size: 14px;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+}
+
+/* BUTTON */
+.btn {
+    grid-column: 1 / -1;
+    margin-top: 14px;
+    padding: 14px;
+    font-size: 16px;
+    border-radius: 10px;
+    background: #2e7d32;
+    color: #fff;
+    border: none;
+    cursor: pointer;
+}
+
+/* RESULT (IMPORTANT PART) */
+.result {
+    margin-top: 18px;
+    display: flex;
+    justify-content: center;
+}
+
+.card {
+    background: #f3fff3;
+    padding: 14px 22px;
+    border-radius: 14px;
+    box-shadow: 0 6px 16px rgba(0,0,0,0.2);
+    text-align: center;
+}
+
+/* Text */
+.crop-name {
+    font-size: 20px;
+    margin-bottom: 8px;
+    color: #2e7d32;
+}
+
+/* Image size EXACT like screenshot */
+.card img {
+    width: 160px;
+    height: 160px;
+    object-fit: cover;
+    border-radius: 12px;
+}
+
+    </style>
+</head>
+<body>
+
+
+<div class="container">
+    <h1>🌱 Crop Recommendation System</h1>
+
+    <!-- FORM -->
+    <form method="POST" action="/predict">
+
+        <div class="field">
+            <label>Nitrogen (N)</label>
+            <input type="number" name="N" required>
+        </div>
+
+        <div class="field">
+            <label>Phosphorus (P)</label>
+            <input type="number" name="P" required>
+        </div>
+
+        <div class="field">
+            <label>Potassium (K)</label>
+            <input type="number" name="K" required>
+        </div>
+
+        <div class="field">
+            <label>Temperature (°C)</label>
+            <input type="number" step="any" name="temperature" required>
+        </div>
+
+        <div class="field">
+            <label>Humidity (%)</label>
+            <input type="number" step="any" name="humidity" required>
+        </div>
+
+        <div class="field">
+            <label>pH</label>
+            <input type="number" step="any" name="ph" required>
+        </div>
+
+        <div class="field">
+            <label>Rainfall (mm)</label>
+            <input type="number" step="any" name="rainfall" required>
+        </div>
+
+        <button type="submit" class="btn">🌾 Predict Crop</button>
+    </form>
+
+    <!-- RESULT -->
+    {% if crop %}
+    <div class="result">
+        <div class="card">
+            <div class="crop-name">Recommended Crop: {{ crop }}</div>
+            <img src="{{ url_for('static', filename='images/' + crop_image + '.jpg') }}" alt="{{ crop }}">
+        </div>
+    </div>
+    {% endif %}
+</div>
+
+</body>
+</html>
+
